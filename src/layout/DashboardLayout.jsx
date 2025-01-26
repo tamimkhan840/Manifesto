@@ -1,5 +1,6 @@
-import { NavLink, Outlet } from "react-router";
+import { Link, NavLink, Outlet } from "react-router";
 import { useState } from "react";
+import admin from "../assets/admin.png";
 
 export default function DashboardLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -13,13 +14,13 @@ export default function DashboardLayout() {
     <div className="flex h-screen overflow-hidden">
       {/* Sidebar for Large Screens */}
       <aside className="hidden md:block bg-[#2E3A59] text-white h-full w-64">
-        <div className="p-6 text-xl font-semibold border-b border-gray-700 flex items-center justify-between">
+        <NavLink to="admin" className="p-6 text-xl font-semibold border-b border-gray-700 flex items-center justify-between">
           <img
-            src="https://via.placeholder.com/40"
+            src={admin}
             alt="Logo"
             className="h-10 w-10 rounded-full"
           />
-        </div>
+        </NavLink>
         <nav className="flex-1 mt-4 overflow-y-auto">
           <ul>
             <li className="p-3 hover:bg-[#475569] cursor-pointer transition-colors">
@@ -30,6 +31,11 @@ export default function DashboardLayout() {
             <li className="p-3 hover:bg-[#475569] cursor-pointer transition-colors">
               <NavLink className="block" to="product">
                 Products
+              </NavLink>
+            </li>
+            <li className="p-3 hover:bg-[#475569] cursor-pointer transition-colors">
+              <NavLink className="block" to="UserTable">
+                Users
               </NavLink>
             </li>
             <li className="p-3 hover:bg-[#475569] cursor-pointer transition-colors">

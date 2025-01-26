@@ -1,22 +1,14 @@
-// import { useSelector } from "react-redux";
-// import { Navigate, Outlet,  } from "react-router";
+import { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import { AuthContext } from "../../contex/Index";
 
-import { Outlet } from "react-router-dom";
+export default function PrivateRoute() {
+  const { user,  } = useContext(AuthContext);
 
-export default function Private() {
-    // const authUser = useSelector((state) => state.auth);
+  if (!user || user.email !== "hmdtamimkhan@gmail.com") {
+    return <Navigate to="/login" replace />;
+  }
 
-    // if (!authUser.isLogin) {
-    //     return <Navigate to={"/login"} />;
-    // }
 
-    // if (authUser.isLogin && authUser.user.role != "admin") {
-    //     return <Navigate to={"/"} />;
-    // }
-
-    // if (authUser.isLogin && authUser.user.role == "admin") {
-    //     return <Outlet />;
-    // }
-
-    return <Outlet />;
+  return <Outlet />;
 }

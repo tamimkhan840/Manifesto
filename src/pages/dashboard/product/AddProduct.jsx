@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router';
 
-const HomeIndex = () => {
+const CreateProduct = () => {
   const navigate = useNavigate()
   const {
     register,
@@ -150,4 +150,4 @@ const HomeIndex = () => {
   );
 };
 
-export default HomeIndex;
+export default CreateProduct;
