@@ -1,81 +1,105 @@
 
-import image2 from "../../assets/path-to-image2.png";
-import image3 from "../../assets/path-to-image3.png";
-import image4 from "../../assets/path-to-image4.png";
-import image5 from "../../assets/path-to-image5.png";
-import image30 from "../../assets/path-to-image30.png";
+import Slider from "react-slick";
+import { motion } from "framer-motion";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import image1 from "../../assets/path-to-image2.png";
+// import image1 from "../../assets/path-to-image2.png";
 
 const HeroSection = () => {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: true,
+  };
+
+  const slides = [
+    {
+      image: image1,
+      title: "Slide 1: Innovation at its Best",
+      altText: "A person using innovative technology",
+  },
+  {
+      image: image1,
+      title: "Slide 2: Designed for You",
+      altText: "A product designed for user comfort",
+  },
+  {
+      image: image1,
+      title: "Slide 3: Experience Excellence",
+      altText: "Experiencing excellent service",
+  },
+  ];
+
   return (
-    <div className="bg-gradient-to-b from-cream-100 to-cream-200 py-12 px-6 md:px-20">
-      <div className="text-center max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-12">
-        <div className="col-span-10">
-            <h1 className="text-xl font-semibold uppercase text-gray-600 tracking-wider">
-              It’s Not Just a T-Shirt
-            </h1>
-            <h2 className="text-4xl md:text-6xl font-bold text-gray-800 leading-snug mt-4">
-              It’s a Manifesto to be Worn!
-            </h2>
-            <p className="text-lg text-gray-600 mt-6">
-              Wortees è una dichiarazione da indossare, è inchiostro; è un atto di
-              responsabilità verbale; è polisemia indelebile del carattere che abbiamo
-              impresso e che ci portiamo addosso.
-            </p>
-            <button className="mt-8 px-6 py-3 bg-red-600 text-white text-lg font-medium rounded-md hover:bg-red-700 transition duration-300">
-              Leggi di più
-            </button>
-        </div>
-        <div className="col-span-2 opacity-65 mx-auto lg:ml-auto object-cover bg-no-repeat"
-       
-          >
-            <img className="my-7" src={image30} alt="i" />
-        </div>
-      </div>
+    <div className="bg-gradient-to-b from-[#FAF4E1] via-purple-100 to-pink-100 min-h-screen">
+      <div className="container mx-auto px-4 py-16">
+        {/* Header Section */}
+        <motion.div
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="text-center mb-12"
+        >
+          <h1 className="text-4xl md:text-6xl font-bold text-gray-800 mb-4">
+          It’s a Manifesto
+          to be Worn!
+          </h1>
+          <p className="text-lg text-gray-600">
+            Explore the best features with a sleek and modern design.
+          </p>
+        </motion.div>
 
-      {/* Responsive Image Layout */}
-      <div className="h-44 md:h-96 relative mt-12 grid grid-cols-3 lg:grid-cols-6 gap-4">
-        <img className="px-3  rounded-lg bg-[#13A5] shadow-lg w-[120px] lg:w-[200px] md:w-[150px] absolute z-50 right-0 -top-[100px] sm:-top-[120px] lg:-top-[170px] "
-            src={image2}
-            alt="" />
+        {/* Slider Section */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1.5 }}
+          className="shadow-xl rounded-xl overflow-hidden"
+        >
+          <Slider {...settings}>
+            {slides.map((slide, index) => (
+              <div key={index} className="h-96 relative">
+                <img
+                  src={slide.image}
+                  alt={slide.title}
+                  className=" object-cover"
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                  <div>
+                  <h2 className="text-3xl md:text-5xl font-semibold text-white text-center px-4">
+                    {slide.title}
+                  </h2>
+                  <br />
+                  <h2 className="text-3xl md:text-5xl font-semibold text-white text-center px-4">
+                    {slide.altText}
+                  </h2>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </Slider>
+        </motion.div>
 
-        <img
-            className="px-3  rounded-lg shadow-lg absolute z-50 w-[70px] sm:w-[100px] lg:w-[200px] md:w-[150px] right-0  top-14  lg:top-[210px] bg-[#13A5EE]"
-            src={image2}
-            alt="" />
-
-        <img
-            className="px-3  hidden lg:block rounded-lg lg:w-[200px] shadow-lg absolute z-50  left-64 top-[21px] bg-[#31B7AC]"
-            src={image2}
-            alt="" />
-
-
-
-        <img
-            className="px-3  rounded-lg md:w-[150px] shadow-lg w-[86px] lg:w-[200px] absolute z-50  left-0 -top-[100px] lg:-top-[170px] bg-[#e6a350]"
-            src={image2}
-            alt="" />
-
-        <img
-            className="px-3  rounded-lg  shadow-lg absolute w-[70px] md:w-[150px] lg:w-[200px] z-50 left-0 top-10 lg:top-[210px] bg-[#13A5EE]"
-            src={image3}
-            alt="" />
-
-
-        <img
-            className="px-3 hidden lg:block rounded-lg w-[200px] lg:w-[200px] shadow-lg absolute z-50   left-[65%] top-[21px] bg-[#E7D1AB]"
-            src={image4}
-            alt="" />
-
-
-        <img
-            className="hidden md:block px-3 rounded-lg md:w-[150px] lg:w-[200px] w-[100px]  shadow-lg absolute z-50 left-[35%]   lg:left-[43%] top-24 lg:top-[95px] bg-[#E7D1AB]"
-            src={image2}
-            alt="" />
-        <img
-            className="md:hidden px-3 rounded-lg md:w-[150px] lg:w-[200px] w-[100px] h-28 shadow-lg absolute z-50 left-[30%] sm:left-[34px] md:left-[43px]  top-0 lg:top-[95px] bg-[#E7D1AB]"
-            src={image5}
-            alt="" />
-
+        {/* Call to Action Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="mt-16 text-center"
+        >
+          <button className="px-8 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium rounded-full shadow-lg hover:shadow-xl hover:from-purple-600 hover:to-blue-600 transition duration-300">
+            Get Started
+          </button>
+          <button className="ml-4 px-8 py-3 bg-gradient-to-r from-pink-500 to-orange-500 text-white font-medium rounded-full shadow-lg hover:shadow-xl hover:from-pink-600 hover:to-orange-600 transition duration-300">
+            Learn More
+          </button>
+        </motion.div>
       </div>
     </div>
   );

@@ -1,12 +1,12 @@
 
-import BestCollections from "./bestCollections/Index";
+import ProductGrid from "../productCard/ProductGrid";
 import Manifest from "./Manifest";
 
 const BestCollection = () => {
   return (
     <div className="font-sans mt-6">
       <Manifest />
-      <BestCollections />
+      <ProductGrid />
     </div>
   );
 };

@@ -12,12 +12,9 @@ const ProductDetails = () => {
   const [color, setColor] = useState("Optical White");
   const [wearability, setWearability] = useState("Regular");
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isInCart, setIsInCart] = useState(false); // To track if the product is in the cart
   const navigate = useNavigate(); // For redirection
-  const {user} = useContext(AuthContext)
-
-
-
-
+  const { user } = useContext(AuthContext);
 
   // Fetch product details by ID
   useEffect(() => {
@@ -26,16 +23,24 @@ const ProductDetails = () => {
         const response = await fetch(`http://localhost:1000/product/${id}`);
         const data = await response.json();
         setProduct(data);
+
+        // Check if the product is already in the cart
+        if (user && user.email) {
+          const cartResponse = await fetch(
+            `http://localhost:1000/cart?userEmail=${user.email}`
+          );
+          const cartData = await cartResponse.json();
+          const isProductInCart = cartData.some((item) => item.productId === data._id);
+          setIsInCart(isProductInCart);
+        }
       } catch (error) {
         console.error("Error fetching product details:", error);
       }
     };
 
     fetchProductDetails();
-  }, [id]);
-  console.log(user);
+  }, [id, user]);
 
-  
   const handleAddToCart = async (product) => {
     if (!user || !user.email) {
       alert("User is not logged in or email is missing.");
@@ -51,17 +56,17 @@ const ProductDetails = () => {
         },
         body: JSON.stringify({
           productId: product._id,
-          userEmail: user.email, // User's name from AuthContext
+          userEmail: user.email,
           price: product.price,
-          quantity: quantity, // Default quantity
+          quantity: quantity,
           photo: product.photo,
           name: product.name,
         }),
       });
 
       if (response.ok) {
-        const result = await response.json();
         alert("Item added to cart!");
+        setIsInCart(true); // Set the product as added to the cart
         navigate("/cartPage");
       } else {
         alert("Failed to add item to cart.");
@@ -71,7 +76,6 @@ const ProductDetails = () => {
       alert("Error adding item to cart.");
     }
   };
-
 
   const handleQuantityChange = (type) => {
     setQuantity((prevQuantity) => {
@@ -167,8 +171,14 @@ const ProductDetails = () => {
               </button>
             </div>
 
-            <button onClick={() => handleAddToCart(product)} className="w-[calc(100%-22rem)] py-3 bg-red-500 text-white rounded-lg font-medium">
-              ADD TO CART
+            <button
+              onClick={() => handleAddToCart(product)}
+              className={`w-[calc(100%-22rem)] py-3 rounded-lg font-medium ${
+                isInCart ? "bg-gray-400 text-white cursor-not-allowed" : "bg-red-500 text-white"
+              }`}
+              disabled={isInCart} // Disable button if already in cart
+            >
+              {isInCart ? "Already in Cart" : "ADD TO CART"}
             </button>
             <button
               className={`w-12 h-12 flex items-center justify-center border rounded-lg ${

@@ -6,9 +6,11 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../contex/Index";
 
 const CartPage = () => {
-  const { user } = useContext(AuthContext); // Logged-in user info
-  const [cartItems, setCartItems] = useState([]);
+  const { user, cartItems ,setCartItems } = useContext(AuthContext); // Logged-in user info
+  // const [cartItems, setCartItems] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
+  console.log(cartItems);
+  
 
   // Fetch cart items for the logged-in user
   useEffect(() => {
@@ -25,7 +27,7 @@ const CartPage = () => {
       .catch((err) =>
         console.error("Failed to fetch recently viewed products:", err)
       );
-  }, [user]);
+  }, [setCartItems, user]);
 
   // Handle quantity change
   const handleQuantityChange = (id, type) => {

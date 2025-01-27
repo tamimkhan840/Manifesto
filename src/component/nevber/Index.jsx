@@ -1,13 +1,21 @@
 import { useState, useContext } from "react";
 import { FaCartPlus, FaRegUserCircle, FaSignInAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { AuthContext } from '../../contex/Index'
+import { AuthContext } from "../../contex/Index";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useContext(AuthContext);
+  const { user, cartItems } = useContext(AuthContext);
+  const [selectedLang, setSelectedLang] = useState("IT");
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLanguageChange = (lang) => {
+    setSelectedLang(lang);
+    setLangDropdownOpen(false);
   };
 
   return (
@@ -32,6 +40,7 @@ const Navbar = () => {
             />
           </svg>
         </button>
+
         {/* Logo */}
         <div className="text-black font-pacifico text-4xl font-bold flex">
           <Link to="/">wortees</Link>
@@ -42,7 +51,6 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-8">
           <Link
             to={"/bestCollection"}
-            href="#"
             className="text-gray-700 hover:text-black"
           >
             Manifesto
@@ -58,10 +66,64 @@ const Navbar = () => {
         {/* Icons */}
         <div className="flex items-center space-x-6">
           {/* Language Selector */}
-          <select className="bg-[#FAF4E1]  rounded">
-            <option>IT</option>
-            <option>EN</option>
-          </select>
+          <div className="relative hidden md:block">
+            <button
+              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+              className="flex items-center bg-[#FAF4E1] text-gray-700 rounded-md py-2 pl-4 pr-8 border border-gray-300"
+            >
+              <img
+                src={
+                  selectedLang === "IT"
+                    ? "https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg"
+                    : "https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg"
+                }
+                alt="Flag"
+                className="w-5 h-5 mr-2"
+              />
+              {selectedLang}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="w-4 h-4 ml-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {/* Dropdown */}
+            {langDropdownOpen && (
+              <div className="absolute right-0 mt-2 bg-[#FAF4E1] border border-gray-300 rounded shadow-md z-10">
+                <button
+                  onClick={() => handleLanguageChange("IT")}
+                  className="flex items-center px-4 py-2 hover:bg-gray-100 w-full"
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg"
+                    alt="Italy Flag"
+                    className="w-5 h-5 mr-2"
+                  />
+                  IT
+                </button>
+                <button
+                  onClick={() => handleLanguageChange("EN")}
+                  className="flex items-center px-4 py-2 hover:bg-gray-100 w-full"
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg"
+                    alt="England Flag"
+                    className="w-5 h-5 mr-2"
+                  />
+                  EN
+                </button>
+              </div>
+            )}
+          </div>
 
           {/* Wishlist/User Icon */}
           {user ? (
@@ -78,17 +140,18 @@ const Navbar = () => {
               className="text-gray-700 hover:text-black flex items-center space-x-2"
             >
               <FaSignInAlt size={25} />
-              {/* <span>Login</span> */}
             </Link>
           )}
 
           {/* Cart Icon */}
           <Link
             to={"/cartPage"}
-            className="flex items-center space-x-1 text-gray-700 hover:text-black"
+            className="flex items-center space-x-1 text-gray-700 hover:text-black relative"
           >
-            <FaCartPlus />
-            <span>Cart (0)</span>
+            <FaCartPlus size={25} />
+            <p className=" bg-red-600 text-white text-center text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center absolute top-0 left-3">
+              {cartItems.length}
+            </p>
           </Link>
         </div>
       </div>
@@ -118,6 +181,65 @@ const Navbar = () => {
           >
             Contatti
           </Link>
+          {/* Language Selector */}
+          <div className="relative">
+            <button
+              onClick={() => setLangDropdownOpen(!langDropdownOpen)}
+              className="flex items-center bg-[#FAF4E1] text-gray-700 rounded-md py-2 pl-4 pr-8 border border-gray-300"
+            >
+              <img
+                src={
+                  selectedLang === "IT"
+                    ? "https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg"
+                    : "https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg"
+                }
+                alt="Flag"
+                className="w-5 h-5 mr-2"
+              />
+              {selectedLang}
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="w-4 h-4 ml-2"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </button>
+
+            {/* Dropdown */}
+            {langDropdownOpen && (
+              <div className="absolute right-0 mt-2 bg-white border border-gray-300 rounded shadow-md z-10">
+                <button
+                  onClick={() => handleLanguageChange("IT")}
+                  className="flex items-center px-4 py-2 hover:bg-gray-100 w-full"
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/commons/0/03/Flag_of_Italy.svg"
+                    alt="Italy Flag"
+                    className="w-5 h-5 mr-2"
+                  />
+                  IT
+                </button>
+                <button
+                  onClick={() => handleLanguageChange("EN")}
+                  className="flex items-center px-4 py-2 hover:bg-gray-100 w-full"
+                >
+                  <img
+                    src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg"
+                    alt="England Flag"
+                    className="w-5 h-5 mr-2"
+                  />
+                  EN
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>

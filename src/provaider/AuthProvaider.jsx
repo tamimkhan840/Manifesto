@@ -12,6 +12,7 @@ import { AuthContext } from "../contex/Index";
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [cartItems ,setCartItems] =useState([])
 
   const provider = new GoogleAuthProvider();
 
@@ -162,6 +163,7 @@ const AuthProvider = ({ children }) => {
     loginUser,
     signInWithGoogle,
     logout,
+    cartItems ,setCartItems
   };
 
   return <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>;

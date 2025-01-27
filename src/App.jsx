@@ -1,5 +1,6 @@
-import { Route, Routes } from "react-router";
-import {  Suspense } from "react";
+import { Route, Routes, useLocation } from "react-router";
+import { Suspense } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import HomeLayout from "./layout/HomeLayout";
 import HomeIndex from "./pages/frontEnd/home/Index";
 
@@ -20,9 +21,11 @@ import UpDateProduct from './pages/dashboard/product/UpDateProduct';
 import CreateProduct from './pages/dashboard/product/AddProduct';
 import Admin from "./pages/dashboard/adminProfilePage/Index";
 import Profile from "./component/Profile/Index";
-
+import Hero from "./component/HeroSection/Hero";
 
 export default function App() {
+  const location = useLocation(); // Hook to get the current route location
+
   return (
     <Suspense
       fallback={
@@ -49,38 +52,160 @@ export default function App() {
         </div>
       }
     >
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
+      <AnimatePresence exitBeforeEnter>
+        <Routes location={location} key={location.pathname}>
+          <Route path="/login" element={<LoginPage />} />
 
-        {/* Public Routes */}
-        <Route path="/" element={<HomeLayout />}>
-          <Route index element={<HomeIndex />} />
-          <Route path="/checkout" element={<Checkout />} />
-          <Route path="/productDetails/:id" element={<ProductDetails />} />
-          <Route path="/cartPage" element={<CartPage />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/productList" element={<ProductList />} />
-          <Route path="/bestCollection" element={<BestCollection />} />
-          <Route path="/registerForm" element={<RegisterForm />} />
-          <Route path="/profile" element={<Profile />} />
-
-        </Route>
-
-        {/* Private Routes */}
-        <Route element={<PrivateRoute />}>
-          <Route path="/dashboard" element={<DashboardLayout />}>
-            <Route index element={<DashboardHome />} />
-            <Route path="product" element={<ProductIndex />} />
-            <Route path="UserTable" element={<UserTable />} />
-            <Route path="product/create" element={<CreateProduct />} />
-            <Route path="product/updateproduct/:id" element={<UpDateProduct />} />
-            <Route path="admin" element={<Admin />} />
+          {/* Public Routes */}
+          <Route path="/" element={<HomeLayout />}>
+            <Route
+              index
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <HomeIndex />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <motion.div
+                  initial={{ x: "-100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "100%" }}
+                  transition={{ type: "spring", stiffness: 100 }}
+                >
+                  <Checkout />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/productDetails/:id"
+              element={
+                <motion.div
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.8 }}
+                  transition={{ type: "tween", duration: 0.3 }}
+                >
+                  <ProductDetails />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/cartPage"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1 }}
+                >
+                  <CartPage />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <motion.div
+                  initial={{ y: "-100%" }}
+                  animate={{ y: 0 }}
+                  exit={{ y: "100%" }}
+                  transition={{ type: "spring", stiffness: 150 }}
+                >
+                  <Contact />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/productList"
+              element={
+                <motion.div
+                  initial={{ x: "100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "-100%" }}
+                  transition={{ type: "tween", duration: 0.3 }}
+                >
+                  <ProductList />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/bestCollection"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1 }}
+                >
+                  <BestCollection />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/registerForm"
+              element={
+                <motion.div
+                  initial={{ scale: 0.8 }}
+                  animate={{ scale: 1 }}
+                  exit={{ scale: 0.8 }}
+                  transition={{ type: "spring", stiffness: 100 }}
+                >
+                  <RegisterForm />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <Profile />
+                </motion.div>
+              }
+            />
+            <Route
+              path="/Hero"
+              element={
+                <motion.div
+                  initial={{ x: "100%" }}
+                  animate={{ x: 0 }}
+                  exit={{ x: "-100%" }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                >
+                  <Hero />
+                </motion.div>
+              }
+            />
           </Route>
-        </Route>
 
-        {/* Catch-all Route for Errors */}
-        <Route path="*" element={<div>404 - Page Not Found</div>} />
-      </Routes>
+          {/* Private Routes */}
+          <Route element={<PrivateRoute />}>
+            <Route path="/dashboard" element={<DashboardLayout />}>
+              <Route index element={<DashboardHome />} />
+              <Route path="product" element={<ProductIndex />} />
+              <Route path="UserTable" element={<UserTable />} />
+              <Route path="product/create" element={<CreateProduct />} />
+              <Route path="product/updateproduct/:id" element={<UpDateProduct />} />
+              <Route path="admin" element={<Admin />} />
+            </Route>
+          </Route>
+
+          {/* Catch-all Route for Errors */}
+          <Route path="*" element={<div>404 - Page Not Found</div>} />
+        </Routes>
+      </AnimatePresence>
     </Suspense>
   );
 }

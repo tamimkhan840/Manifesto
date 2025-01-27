@@ -77,9 +77,9 @@ const ProductGrid = () => {
                 </h3>
                 <Link
                   to={`/productDetails/${product._id}`}
-                  className="text-xs bg-gray-200 text-gray-800 px-2 py-1 rounded-full uppercase"
+                  className="absolute top-2 right-2 bg-black text-white text-xs px-2 py-1 rounded"
                 >
-                  {product.category || "Regular"}
+                  {"Oversize"}
                 </Link>
               </div>
               <p className="text-base text-gray-800 mb-4">{product.details}</p>
