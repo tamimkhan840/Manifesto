@@ -5,11 +5,12 @@ const ProductGrid = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   // Fetch data from the API
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://localhost:1000/product");
+        const response = await fetch("https://at-shirt-server.vercel.app/product");
         const data = await response.json();
         setProducts(data); // Set the fetched data
         setLoading(false); // Stop the loader
@@ -21,33 +22,7 @@ const ProductGrid = () => {
 
     fetchData();
   }, []);
-  // const handleAddToCart = async (product) => {
-  //   try {
-  //     const response = await fetch("http://localhost:1000/cart", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         productId: product._id,
-  //         name: product.name,
-  //         price: product.price,
-  //         quantity: 1, // Default quantity
-  //         photo: product.photo,
-  //       }),
-  //     });
 
-  //     if (response.ok) {
-  //       const result = await response.json();
-  //       alert("Item added to cart!");
-  //     } else {
-  //       alert("Failed to add item to cart.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error adding to cart:", error);
-  //     alert("Error adding item to cart.");
-  //   }
-  // };
   if (loading) {
     return (
       <div className="py-12 px-6 text-center">
@@ -83,7 +58,7 @@ const ProductGrid = () => {
                 </Link>
               </div>
               <p className="text-base text-gray-800 mb-4">{product.details}</p>
-              <div className="flex justify-between items-center hover:bg-red-600 text-black hover:text-white rounded-lg p-2 border shadow">
+              <div className="flex justify-between items-center bg-red-500 hover:bg-red-600 text-black hover:text-white rounded-lg p-2 border shadow">
                 <button  className="px-4 py-2 text-sm rounded-md">ADD TO CART</button>
                 <span className="font-semibold">{product.price} €</span>
               </div>

@@ -27,7 +27,7 @@ const RegisterForm = () => {
           role: defaultRole, // Add default role
         };
 
-        fetch(`http://localhost:1000/user`, {
+        fetch(`https://at-shirt-server.vercel.app/user`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

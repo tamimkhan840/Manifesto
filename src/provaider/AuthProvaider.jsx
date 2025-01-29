@@ -13,9 +13,20 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [cartItems ,setCartItems] =useState([])
+  const [cartProducts, setCartProducts] = useState([]);
 
   const provider = new GoogleAuthProvider();
 
+  useEffect(() => {
+    const fetchCart = async () => {
+      if (user && user.email) {
+        const response = await fetch(`https://at-shirt-server.vercel.app/cart?userEmail=${user.email}`);
+        const data = await response.json();
+        setCartProducts(data.map((item) => item.productId)); // Save only product IDs
+      }
+    };
+    fetchCart();
+  }, [user]);
   // Load user from localStorage or Firebase Auth state on mount
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
@@ -119,11 +130,11 @@ const AuthProvider = ({ children }) => {
           }
         });
 
-        fetch(`http://localhost:1000/user?email=${user.email}`)
+        fetch(`https://at-shirt-server.vercel.app/user?email=${user.email}`)
           .then((res) => res.json())
           .then((existingUser) => {
             if (existingUser.length === 0) {
-              fetch("http://localhost:1000/user", {
+              fetch("https://at-shirt-server.vercel.app/user", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -163,7 +174,8 @@ const AuthProvider = ({ children }) => {
     loginUser,
     signInWithGoogle,
     logout,
-    cartItems ,setCartItems
+    cartItems ,setCartItems,
+    cartProducts, setCartProducts
   };
 
   return <AuthContext.Provider value={userInfo}>{children}</AuthContext.Provider>;

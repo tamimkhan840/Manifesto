@@ -12,26 +12,29 @@ const ProductDetails = () => {
   const [color, setColor] = useState("Optical White");
   const [wearability, setWearability] = useState("Regular");
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isInCart, setIsInCart] = useState(false); // To track if the product is in the cart
   const navigate = useNavigate(); // For redirection
-  const { user } = useContext(AuthContext);
+  const { user, cartProducts, setCartProducts } = useContext(AuthContext);
+
+  const isInCart = cartProducts.includes(id); // Check if this product is in the cart
 
   // Fetch product details by ID
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:1000/product/${id}`);
+        const response = await fetch(`https://at-shirt-server.vercel.app/product/${id}`);
         const data = await response.json();
         setProduct(data);
 
         // Check if the product is already in the cart
         if (user && user.email) {
           const cartResponse = await fetch(
-            `http://localhost:1000/cart?userEmail=${user.email}`
+            `https://at-shirt-server.vercel.app/cart?userEmail=${user.email}`
           );
           const cartData = await cartResponse.json();
-          const isProductInCart = cartData.some((item) => item.productId === data._id);
-          setIsInCart(isProductInCart);
+          const isProductInCart = cartData.some(
+            (item) => item.productId === data._id
+          );
+          // setCartProducts(isProductInCart);
         }
       } catch (error) {
         console.error("Error fetching product details:", error);
@@ -48,8 +51,13 @@ const ProductDetails = () => {
       return;
     }
 
+    if (!size) {
+      alert("Please select a size before adding to cart.");
+      return;
+    }
+
     try {
-      const response = await fetch("http://localhost:1000/cart", {
+      const response = await fetch("https://at-shirt-server.vercel.app/cart", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,8 +74,8 @@ const ProductDetails = () => {
 
       if (response.ok) {
         alert("Item added to cart!");
-        setIsInCart(true); // Set the product as added to the cart
-        navigate("/cartPage");
+        setCartProducts((prev) => [...prev, product._id]); // Update global cart state
+        setQuantity(1); // Reset quantity after adding
       } else {
         alert("Failed to add item to cart.");
       }
@@ -87,8 +95,9 @@ const ProductDetails = () => {
 
   if (!product) {
     return (
-      <div className="p-4 text-center">
-        <h2 className="text-2xl font-bold">Loading product details...</h2>
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader"></div> {/* Replace with a spinner component */}
+        <h2 className="text-2xl font-bold ml-4">Loading product details...</h2>
       </div>
     );
   }
@@ -119,16 +128,20 @@ const ProductDetails = () => {
           <div className="flex items-center space-x-2 mb-6">
             <span className="text-gray-600">Wearability:</span>
             <button
-              className={`py-1 px-3 rounded border ${
-                wearability === "Oversize" ? "bg-gray-800 text-white" : "bg-white"
+              className={`py-1 px-3 rounded border transition duration-200 ${
+                wearability === "Oversize"
+                  ? "bg-gray-800 text-white"
+                  : "bg-white hover:bg-gray-200"
               }`}
               onClick={() => setWearability("Oversize")}
             >
               Oversize
             </button>
             <button
-              className={`py-1 px-3 rounded border ${
-                wearability === "Regular" ? "bg-gray-800 text-white" : "bg-white"
+              className={`py-1 px-3 rounded border transition duration-200 ${
+                wearability === "Regular"
+                  ? "bg-gray-800 text-white"
+                  : "bg-white hover:bg-gray-200"
               }`}
               onClick={() => setWearability("Regular")}
             >
@@ -142,8 +155,10 @@ const ProductDetails = () => {
               {["XS", "S", "M", "L", "XL"].map((sizeOption) => (
                 <button
                   key={sizeOption}
-                  className={`py-1 px-3 rounded border ${
-                    size === sizeOption ? "bg-gray-800 text-white" : "bg-white"
+                  className={`py-1 px-3 rounded border transition duration-200 ${
+                    size === sizeOption
+                      ? "bg-gray-800 text-white"
+                      : "bg-white hover:bg-gray-200"
                   }`}
                   onClick={() => setSize(sizeOption)}
                 >
@@ -174,7 +189,9 @@ const ProductDetails = () => {
             <button
               onClick={() => handleAddToCart(product)}
               className={`w-[calc(100%-22rem)] py-3 rounded-lg font-medium ${
-                isInCart ? "bg-gray-400 text-white cursor-not-allowed" : "bg-red-500 text-white"
+                isInCart
+                  ? "bg-gray-400 text-white cursor-not-allowed"
+                  : "bg-red-500 text-white"
               }`}
               disabled={isInCart} // Disable button if already in cart
             >

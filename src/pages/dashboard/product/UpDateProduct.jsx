@@ -18,7 +18,7 @@ const UpDateProduct = () => {
 
   useEffect(() => {
 
-    fetch(`http://localhost:1000/product/${id}`)
+    fetch(`https://at-shirt-server.vercel.app/product/${id}`)
       .then((res) => res.json())
       .then((data) => {
         reset(data);
@@ -36,7 +36,7 @@ const UpDateProduct = () => {
   }, [id, reset]);
 
   const onSubmit = (data) => {
-    fetch(`http://localhost:1000/product/${id}`, {
+    fetch(`https://at-shirt-server.vercel.app/product/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const UpDateProduct = () => {
             text: 'Product updated successfully!',
             icon: 'success',
           });
-          navigate('/dashboard/product'); 
+          navigate('/dashboard/product');
         } else {
           Swal.fire({
             title: 'No Changes!',

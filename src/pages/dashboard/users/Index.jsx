@@ -5,7 +5,7 @@ const UserTable = () => {
 
   useEffect(() => {
     // Fetch users from the server
-    fetch("http://localhost:1000/users")
+    fetch("https://at-shirt-server.vercel.app/users")
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => console.error("Failed to fetch users:", err));

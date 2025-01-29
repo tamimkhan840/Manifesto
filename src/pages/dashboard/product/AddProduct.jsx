@@ -16,7 +16,7 @@ const CreateProduct = () => {
 
     reset();
 
-    fetch("http://localhost:1000/product", {
+    fetch("https://at-shirt-server.vercel.app/product", {
         method: "POST",
         headers: {
             "content-type": "application/json"

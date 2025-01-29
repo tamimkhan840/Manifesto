@@ -2,29 +2,32 @@
 
 import { Link } from "react-router-dom";
 
-
 const ProductCard = ({ product, onEdit, onDelete }) => {
-
   return (
-    <div className="max-w-xs bg-white shadow-md rounded-lg p-3 flex justify-between">
-      <div>
+    <tr>
+      <td className="border border-gray-300 px-4 py-2">
         <img
           src={product.photo}
           alt={product.name}
-          className="w-full h-32 object-cover rounded"
+          className="w-24 h-24 object-cover rounded"
         />
-      </div>
-      <div>
-        <h2 className="font-bold text-lg mt-3">{product.name}</h2>
-        <p className="text-gray-600 text-sm">{product.description}</p>
-        <p className="text-red-500 font-bold mt-2">{product.price} €</p>
-        <div className="flex justify-between mt-2">
-          <button
-            className="text-white bg-blue-500 px-3 py-1 rounded hover:bg-blue-600"
-            onClick={() => onEdit(product._id)}
-          ><Link to={`/dashboard/product/updateproduct/${product._id}`}>Edit</Link>
-
-          </button>
+      </td>
+      <td className="border border-gray-300 px-4 py-2 font-bold">
+        {product.name}
+      </td>
+      <td className="border border-gray-300 px-4 py-2 text-sm">
+        {product.description}
+      </td>
+      <td className="border border-gray-300 px-4 py-2 text-red-500 font-bold">
+        {product.price} €
+      </td>
+      <td className="border border-gray-300 px-4 py-2">
+        <div className="flex space-x-2">
+          <Link to={`/dashboard/product/updateproduct/${product._id}`}>
+            <button className="text-white bg-blue-500 px-3 py-1 rounded hover:bg-blue-600">
+              Edit
+            </button>
+          </Link>
           <button
             className="text-white bg-red-500 px-3 py-1 rounded hover:bg-red-600"
             onClick={() => onDelete(product._id)}
@@ -32,9 +35,10 @@ const ProductCard = ({ product, onEdit, onDelete }) => {
             Delete
           </button>
         </div>
-      </div>
-    </div>
+      </td>
+    </tr>
   );
 };
 
 export default ProductCard;
+

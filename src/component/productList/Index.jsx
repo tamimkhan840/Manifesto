@@ -1,94 +1,12 @@
 import  { useState } from "react";
-import image1 from "../../assets/path-to-image20.png";
+import ProductGrid from "../productCard/ProductGrid";
 
-const products = [
-  {
-    id: 1,
-    title: "Zapoj",
-    description: "Binge drinking; two or more days of continuous drunkenness.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Regular",
-  },
-  {
-    id: 2,
-    title: "Eresiarca",
-    description: "One who habitually speaks blasphemy or great gibberish.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Oversize",
-  },
-  {
-    id: 3,
-    title: "Listzomaniac",
-    description: "A person who gets into a feverish frenzy during concerts.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Oversize",
-  },
-  {
-    id: 3,
-    title: "Listzomaniac",
-    description: "A person who gets into a feverish frenzy during concerts.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Oversize",
-  },
-  {
-    id: 3,
-    title: "Listzomaniac",
-    description: "A person who gets into a feverish frenzy during concerts.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Oversize",
-  },
-  {
-    id: 3,
-    title: "Listzomaniac",
-    description: "A person who gets into a feverish frenzy during concerts.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Oversize",
-  },
-  {
-    id: 3,
-    title: "Listzomaniac",
-    description: "A person who gets into a feverish frenzy during concerts.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Oversize",
-  },
-  {
-    id: 3,
-    title: "Listzomaniac",
-    description: "A person who gets into a feverish frenzy during concerts.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Oversize",
-  },
-  {
-    id: 3,
-    title: "Listzomaniac",
-    description: "A person who gets into a feverish frenzy during concerts.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Oversize",
-  },
-  {
-    id: 3,
-    title: "Listzomaniac",
-    description: "A person who gets into a feverish frenzy during concerts.",
-    price: "60,00 €",
-    image: image1,
-    tag: "Oversize",
-  },
-  // Add more products as needed
-];
+
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div
-      className={`bg-white shadow-lg lg:shadow-none absolute top-16 lg:static z-10 p-8 lg:p-8 w-64 lg:w-72 lg:block transition-transform transform ${
+      className={`bg-white shadow-lg lg:shadow-none absolute top-16 lg:static z-10 p-8 lg:p-0 w-64 lg:w-72 lg:block transition-transform transform ${
         isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       }`}
     >
@@ -136,12 +54,7 @@ const ProductList = () => {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  const sortedProducts = [...products].sort((a, b) => {
-    if (sortOrder === "asc") {
-      return a.title.localeCompare(b.title);
-    }
-    return b.title.localeCompare(a.title);
-  });
+
 
   return (
     <div className="lg:flex">
@@ -160,10 +73,10 @@ const ProductList = () => {
       </div>
 
       {/* Product List */}
-      <div className="flex-1 px-4 lg:px-8">
+      <div className="flex-1 px-2 lg:px-0">
         <h2 className="text-3xl font-bold text-center  my-6">Prodotti</h2>
         <div className="flex justify-between items-center mb-2">
-          <p>Showing 1-12 of {products.length} results</p>
+          <p>Showing 1-12 of 20 results</p>
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value)}
@@ -173,37 +86,10 @@ const ProductList = () => {
             <option value="desc">Descending</option>
           </select>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {sortedProducts.map((product) => (
-            <div
-              key={product.id}
-              className="bg-white shadow rounded-lg p-3 lg:p-4"
-            >
-              <div className="relative">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="w-full h-40 object-cover rounded-lg"
-                />
-                <span className="absolute top-2 right-2 bg-black text-white text-xs px-2 py-1 rounded">
-                  {product.tag}
-                </span>
-              </div>
-              <div className="mt-3">
-                <h3 className="font-semibold text-base">{product.title}</h3>
-                <p className="text-gray-500 text-sm mt-1">
-                  {product.description}
-                </p>
-                <div className="flex justify-between items-center hover:bg-red-600 text-black hover:text-white rounded-lg p-2 border shadow">
-                  <button className="px-4 py-2 text-sm rounded-md">
-                    ADD TO CART
-                  </button>
-                  <span className="font-bold">{product.price}</span>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="m-0 p-0">
+          <ProductGrid />
         </div>
+
       </div>
     </div>
   );

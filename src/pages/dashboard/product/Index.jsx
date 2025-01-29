@@ -9,7 +9,7 @@ const ProductIndex = () => {
 
   // Fetch data from API
   useEffect(() => {
-    fetch("http://localhost:1000/product")
+    fetch("https://at-shirt-server.vercel.app/product")
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((error) => console.error("Error fetching data:", error));
@@ -34,7 +34,7 @@ const ProductIndex = () => {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:1000/product/${id}`,
+        fetch(`https://at-shirt-server.vercel.app/product/${id}`,
           {
             method: "DELETE"
           }
@@ -58,16 +58,29 @@ const ProductIndex = () => {
         <button className="text-white bg-blue-500 px-3 py-1 rounded hover:bg-blue-600"><NavLink to={'/dashboard/product/create'}>Add Product</NavLink></button>
       </div>
       <hr className="my-3"/>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-        {products?.map((product) => (
-          <ProductCard
-            key={product._id}
-            product={product}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
-      </div>
+      <div className="overflow-x-auto w-full">
+      <table className="table-auto w-full border-collapse border border-gray-300 text-left">
+        <thead>
+          <tr className="bg-gray-100">
+            <th className="border border-gray-300 px-4 py-2">Photo</th>
+            <th className="border border-gray-300 px-4 py-2">Name</th>
+            <th className="border border-gray-300 px-4 py-2">Description</th>
+            <th className="border border-gray-300 px-4 py-2">Price</th>
+            <th className="border border-gray-300 px-4 py-2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products?.map((product) => (
+            <ProductCard
+              key={product._id}
+              product={product}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
     </div>
   );
 };

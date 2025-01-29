@@ -10,18 +10,18 @@ const CartPage = () => {
   // const [cartItems, setCartItems] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   console.log(cartItems);
-  
+
 
   // Fetch cart items for the logged-in user
   useEffect(() => {
     if (!user || !user.email) return;
 
-    fetch(`http://localhost:1000/cart?email=${user.email}`)
+    fetch(`https://at-shirt-server.vercel.app/cart?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => setCartItems(data))
       .catch((err) => console.error("Failed to fetch cart items:", err));
 
-    fetch("http://localhost:1000/product") // Recently viewed products
+    fetch("https://at-shirt-server.vercel.app/product") // Recently viewed products
       .then((res) => res.json())
       .then((data) => setRecentlyViewed(data))
       .catch((err) =>
@@ -37,7 +37,7 @@ const CartPage = () => {
     const newQuantity =
       type === "increase" ? item.quantity + 1 : Math.max(1, item.quantity - 1);
 
-    fetch(`http://localhost:1000/cart/${id}`, {
+    fetch(`https://at-shirt-server.vercel.app/cart/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const CartPage = () => {
 
   // Handle remove item
   const handleRemoveItem = (id) => {
-    fetch(`http://localhost:1000/cart/${id}`, {
+    fetch(`https://at-shirt-server.vercel.app/cart/${id}`, {
       method: "DELETE",
     })
       .then(() => {
@@ -143,7 +143,7 @@ const CartPage = () => {
               {cartItems
                 .reduce((acc, item) => acc + item.price * item.quantity, 0)
                 .toFixed(2)}{" "}
-              €
+              $
             </span>
           </div>
           <div className="flex justify-between font-bold text-lg">
@@ -152,7 +152,7 @@ const CartPage = () => {
               {cartItems
                 .reduce((acc, item) => acc + item.price * item.quantity, 0)
                 .toFixed(2)}{" "}
-              €
+              $
             </span>
           </div>
           <button className="w-full bg-red-500 text-white py-3 mt-4 rounded-lg hover:bg-red-600 transition">
